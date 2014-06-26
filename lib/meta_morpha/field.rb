@@ -39,10 +39,11 @@ module MetaMorpha
       end
 
       def convert_value(raw_value)
-        value = find_meta_value(raw_value).to_s
+        value = find_meta_value(raw_value)
         if VALID_TYPES.has_key?(@type)
           value.send(VALID_TYPES[@type])
         end
+        value
       end
 
   end

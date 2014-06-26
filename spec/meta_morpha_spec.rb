@@ -10,6 +10,8 @@ module Shop
     field :example do |doc|
       doc.at("#example").text.to_s
     end
+    field :no_type, property: 'og:image'
+    field :no_default, property: 'somethingthatdoesnotexist'
 
   end
 end
@@ -28,10 +30,12 @@ describe MetaMorpha do
 
     it "maps the field" do
       fields = @product.class.instance_variable_get(:@mapped_fields)
-      expect(fields.count).to eq 3
+      expect(fields.count).to eq 5
       expect(fields).to have_key(:title)
       expect(fields).to have_key(:not_found)
       expect(fields).to have_key(:example)
+      expect(fields).to have_key(:no_type)
+      expect(fields).to have_key(:no_default)
     end
 
   end
@@ -50,16 +54,25 @@ describe MetaMorpha do
       expect(@product.example).to eq "This is the example"
     end
 
+    it "finds meta even when no type is set" do
+      expect(@product.no_type).to eq "http://example.com/prod.jpg"
+    end
+
+    it "returns nil for unfound meta if no default" do
+      expect(@product.no_default).to be_nil
+    end
   end
 
   describe "to_hash" do
 
     it "converst mapped fileds to hash" do
       product_hash = @product.to_hash
-      expect(product_hash.count).to eq 3
+      expect(product_hash.count).to eq 5
       expect(product_hash[:title]).to eq @product.title
       expect(product_hash[:not_found]).to eq @product.not_found
       expect(product_hash[:example]).to eq @product.example
+      expect(product_hash[:no_type]).to eq @product.no_type
+      expect(product_hash[:no_default]).to eq @product.no_default
     end
 
   end
