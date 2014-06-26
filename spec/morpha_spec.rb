@@ -32,10 +32,6 @@ describe Morpha do
       fields.should have_key(:title)
       fields.should have_key(:not_found)
       fields.should have_key(:example)
-      # fields.should have_key(:id)
-      # fields.should have_key(:price)
-      # fields.should have_key(:currency)
-      # fields.should have_key(:reverse_image)
     end
 
   end
