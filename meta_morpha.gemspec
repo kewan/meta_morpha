@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'meta_morpha/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "MetaMorpha"
+  spec.name          = "meta_morpha"
   spec.version       = MetaMorpha::VERSION
   spec.authors       = ["Kewan Shunn"]
   spec.email         = ["kewan@kewanshunn.com"]
