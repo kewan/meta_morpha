@@ -1,4 +1,4 @@
-# MetaMorpha [![Build Status](https://travis-ci.org/kewan/MetaMorpha.png?branch=master)](https://travis-ci.org/kewan/MetaMorpha)
+# MetaMorpha 
 
 *NB: This is a work in progress and not ready for use in production apps.*
 
