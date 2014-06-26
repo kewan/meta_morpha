@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in Morpha.gemspec
+# Specify your gem's dependencies in MetaMorpha.gemspec
 gemspec

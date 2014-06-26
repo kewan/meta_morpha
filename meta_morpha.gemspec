@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'morpha/version'
+require 'meta_morpha/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "Morpha"
-  spec.version       = Morpha::VERSION
+  spec.name          = "MetaMorpha"
+  spec.version       = MetaMorpha::VERSION
   spec.authors       = ["Kewan Shunn"]
   spec.email         = ["kewan@kewanshunn.com"]
-  spec.description   = %q{Allows you to define mappings from html}
-  spec.summary       = %q{Format like a Morpha}
+  spec.description   = %q{Allows you to define mappings html meta}
+  spec.summary       = %q{DSL to describe mappings of html meta tags}
   spec.homepage      = ""
   spec.license       = "MIT"
 

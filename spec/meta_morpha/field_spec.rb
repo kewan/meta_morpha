@@ -1,7 +1,7 @@
-require 'morpha/field'
+require 'meta_morpha/field'
 require 'nokogiri'
 
-describe Morpha::Field do
+describe MetaMorpha::Field do
 
   before(:each) do
     file = File.read(File.expand_path('../../examples/opengraph.html', __FILE__))
@@ -11,17 +11,17 @@ describe Morpha::Field do
   describe "map" do
 
     it "maps to a meta tag property" do
-      field = Morpha::Field.new(:name, 'og:title', :string, "")
+      field = MetaMorpha::Field.new(:name, 'og:title', :string, "")
       expect(field.map(@html)).to eq "This is the open graph title"
     end
 
     it "maps using block" do
-      field = Morpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
+      field = MetaMorpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
       expect(field.map(@html)).to eq "Title from html"
     end
 
     it "maps using a complex block" do
-      field = Morpha::Field.new(:prices) do |doc|
+      field = MetaMorpha::Field.new(:prices) do |doc|
         amounts = doc.css('meta[property="og:price:amount"]').map {|m| m.attribute('content').to_s }
         currencies = doc.css('meta[property="og:price:currency"]').map {|m| m.attribute('content').to_s }
 
@@ -39,7 +39,7 @@ describe Morpha::Field do
     end
 
     it "maps to default if not found" do
-      field = Morpha::Field.new(:name, 'somejunkmeta', :string, "notfound")
+      field = MetaMorpha::Field.new(:name, 'somejunkmeta', :string, "notfound")
       expect(field.map(@html)).to eq "notfound"
     end
   end

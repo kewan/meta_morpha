@@ -1,10 +1,10 @@
 require "rest_client"
 require "nokogiri"
-require "morpha/version"
-require "morpha/module_inheritable_attributes"
-require "morpha/field"
+require "meta_morpha/version"
+require "meta_morpha/module_inheritable_attributes"
+require "meta_morpha/field"
 
-module Morpha
+module MetaMorpha
 
   def self.fetch(uri)
     parse(RestClient.get(uri).body)
@@ -32,7 +32,7 @@ module Morpha
 
   def self.included(base)
     base.extend ClassMethods
-    base.send :include, Morpha::ModuleInheritableAttributes
+    base.send :include, MetaMorpha::ModuleInheritableAttributes
     base.send(:mattr_inheritable, :mapped_fields)
     base.instance_variable_set "@mapped_fields", {}
   end
@@ -55,4 +55,4 @@ module Morpha
 end
 
 # rails hook app/mats dir
-require 'morpha/rails' if defined?(::Rails::Engine)
+require 'meta_morpha/rails' if defined?(::Rails::Engine)

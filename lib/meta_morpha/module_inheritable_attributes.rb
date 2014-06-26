@@ -1,4 +1,4 @@
-module Morpha
+module MetaMorpha
 
   # borrowed from HTTParty
   module ModuleInheritableAttributes #:nodoc:

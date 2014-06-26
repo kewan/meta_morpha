@@ -1,4 +1,4 @@
-# Morpha [![Build Status](https://travis-ci.org/kewan/Morpha.png?branch=master)](https://travis-ci.org/kewan/Morpha)
+# MetaMorpha [![Build Status](https://travis-ci.org/kewan/MetaMorpha.png?branch=master)](https://travis-ci.org/kewan/MetaMorpha)
 
 *NB: This is a work in progress and not ready for use in production apps.*
 
@@ -8,7 +8,7 @@ TODO: Write a description
 
 Add this line to your application's Gemfile:
 
-    gem 'Morpha'
+    gem 'MetaMorpha'
 
 And then execute:
 
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install Morpha
+    $ gem install MetaMorpha
 
 ## Usage
 

@@ -1,4 +1,4 @@
-module Morpha
+module MetaMorpha
   class Field
 
     attr_accessor :to

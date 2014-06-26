@@ -1,9 +1,9 @@
-require 'morpha'
+require 'meta_morpha'
 
 # Example implimentation
 module Shop
   class Product
-    include Morpha
+    include MetaMorpha
 
     field :title, source: "og:title", type: :string
     field :not_found, source: 'somejunk', type: :string, default: 'nothingfound'
@@ -15,7 +15,7 @@ module Shop
 end
 
 
-describe Morpha do
+describe MetaMorpha do
 
   before(:each) do
     @product = Shop::Product.new
