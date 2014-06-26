@@ -9,7 +9,7 @@ module MetaMorpha
       :float   => :to_f
     }
 
-    def initialize(to, from=nil, type=:string, default='', &conversion)
+    def initialize(to, from=nil, type=nil, default=nil, &conversion)
       @to = to.to_s
       @from = from
       @type = type

@@ -39,9 +39,9 @@ module MetaMorpha
 
   module ClassMethods
     def field(to, options={}, &block)
-      from    = options[:property]  || nil
-      type    = options[:type]    || :string
-      default = options[:default] || ''
+      from    = options[:property]
+      type    = options[:type]
+      default = options[:default]
 
       # create a getter/setter
       attr_accessor to

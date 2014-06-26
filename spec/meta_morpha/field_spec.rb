@@ -42,6 +42,11 @@ describe MetaMorpha::Field do
       field = MetaMorpha::Field.new(:name, 'somejunkmeta', :string, "notfound")
       expect(field.map(@html)).to eq "notfound"
     end
+
+    it "maps to nil if not found with no default" do
+      field = MetaMorpha::Field.new(:name, 'somejunkmeta')
+      expect(field.map(@html)).to be_nil
+    end
   end
 
 end
