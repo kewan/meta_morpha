@@ -28,10 +28,10 @@ describe Morpha do
 
     it "maps the field" do
       fields = @product.class.instance_variable_get(:@mapped_fields)
-      fields.count.should eq 3
-      fields.should have_key(:title)
-      fields.should have_key(:not_found)
-      fields.should have_key(:example)
+      expect(fields.count).to eq 3
+      expect(fields).to have_key(:title)
+      expect(fields).to have_key(:not_found)
+      expect(fields).to have_key(:example)
     end
 
   end
@@ -39,15 +39,15 @@ describe Morpha do
   describe "parse" do
 
     it "finds meta using source" do
-      @product.title.should eq "This is the open graph title"
+      expect(@product.title).to eq "This is the open graph title"
     end
 
     it "uses default if meta not found" do
-      @product.not_found.should eq "nothingfound"
+      expect(@product.not_found).to eq "nothingfound"
     end
 
     it "uses gets value from block" do
-      @product.example.should eq "This is the example"
+      expect(@product.example).to eq "This is the example"
     end
 
   end
@@ -56,10 +56,10 @@ describe Morpha do
 
     it "converst mapped fileds to hash" do
       product_hash = @product.to_hash
-      product_hash.count.should eq 3
-      product_hash[:title].should eq @product.title
-      product_hash[:not_found].should eq @product.not_found
-      product_hash[:example].should eq @product.example
+      expect(product_hash.count).to eq 3
+      expect(product_hash[:title]).to eq @product.title
+      expect(product_hash[:not_found]).to eq @product.not_found
+      expect(product_hash[:example]).to eq @product.example
     end
 
   end

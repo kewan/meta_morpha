@@ -12,12 +12,12 @@ describe Morpha::Field do
 
     it "maps to a meta tag property" do
       field = Morpha::Field.new(:name, 'og:title', :string, "")
-      field.map(@html).should eq "This is the open graph title"
+      expect(field.map(@html)).to eq "This is the open graph title"
     end
 
     it "maps using block" do
       field = Morpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
-      field.map(@html).should eq "Title from html"
+      expect(field.map(@html)).to eq "Title from html"
     end
 
     it "maps using a complex block" do
@@ -32,7 +32,7 @@ describe Morpha::Field do
 
         prices
       end
-      field.map(@html).should eq [
+      expect(field.map(@html)).to eq [
           {:currency=>"GBP", :amount=>"319.99"},
           {:currency=>"USD", :amount=>"369.99"}
       ]
@@ -40,7 +40,7 @@ describe Morpha::Field do
 
     it "maps to default if not found" do
       field = Morpha::Field.new(:name, 'somejunkmeta', :string, "notfound")
-      field.map(@html).should eq "notfound"
+      expect(field.map(@html)).to eq "notfound"
     end
   end
 
