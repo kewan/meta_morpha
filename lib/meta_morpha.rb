@@ -6,14 +6,8 @@ require "meta_morpha/field"
 
 module MetaMorpha
 
-  def self.fetch(uri)
-    parse(RestClient.get(uri).body)
-  rescue RestClient::Exception, SocketError
-    false
-  end
-
   def parse(html)
-    doc = Nokogiri::HTML.parse(html)
+    doc = html.is_a?(Nokogiri::HTML::Document) ? html : Nokogiri::HTML.parse(html)
     fields = self.class.instance_variable_get(:@mapped_fields)
     fields.each_value do |field|
       send("#{field.to}=", field.map(doc))

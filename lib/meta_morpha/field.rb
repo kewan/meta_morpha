@@ -20,7 +20,6 @@ module MetaMorpha
     def map(html)
       @html = html
 
-
       if(@conversion)
         return @conversion.call(@html)
       elsif(@from)

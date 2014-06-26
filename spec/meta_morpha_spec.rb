@@ -23,6 +23,7 @@ describe MetaMorpha do
     @product = Shop::Product.new
     file = File.read(File.expand_path('../examples/opengraph.html', __FILE__))
 
+    file = Nokogiri::HTML.parse(file)
     @product.parse(file)
   end
 
