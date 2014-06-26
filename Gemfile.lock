@@ -1,0 +1,27 @@
+PATH
+  remote: .
+  specs:
+    Morpha (0.0.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    rake (10.3.2)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
+    rspec-core (2.13.1)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  Morpha!
+  bundler (~> 1.3)
+  rake
+  rspec (~> 2.13.0)
