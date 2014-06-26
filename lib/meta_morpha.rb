@@ -1,4 +1,3 @@
-require "rest_client"
 require "nokogiri"
 require "meta_morpha/version"
 require "meta_morpha/module_inheritable_attributes"
