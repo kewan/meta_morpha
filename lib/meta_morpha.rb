@@ -39,7 +39,7 @@ module MetaMorpha
 
   module ClassMethods
     def field(to, options={}, &block)
-      from    = options[:source]  || nil
+      from    = options[:property]  || nil
       type    = options[:type]    || :string
       default = options[:default] || ''
 

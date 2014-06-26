@@ -5,8 +5,8 @@ module Shop
   class Product
     include MetaMorpha
 
-    field :title, source: "og:title", type: :string
-    field :not_found, source: 'somejunk', type: :string, default: 'nothingfound'
+    field :title, property: "og:title", type: :string
+    field :not_found, property: 'somejunk', type: :string, default: 'nothingfound'
     field :example do |doc|
       doc.at("#example").text.to_s
     end
@@ -38,7 +38,7 @@ describe MetaMorpha do
 
   describe "parse" do
 
-    it "finds meta using source" do
+    it "finds meta using property" do
       expect(@product.title).to eq "This is the open graph title"
     end
 

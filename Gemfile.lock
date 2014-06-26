@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    MetaMorpha (0.0.4)
+    meta_morpha (0.0.4)
       nokogiri (~> 1.6.2.1)
       rest-client (~> 1.6.7)
 
@@ -33,7 +33,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  MetaMorpha!
   bundler (~> 1.6.3)
+  meta_morpha!
   rake
   rspec (~> 3.0.0)
