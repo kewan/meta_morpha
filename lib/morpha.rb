@@ -1,13 +1,22 @@
+require "rest_client"
+require "nokogiri"
 require "morpha/version"
 require "morpha/module_inheritable_attributes"
 require "morpha/field"
 
 module Morpha
 
-  def parse(data)
+  def self.fetch(uri)
+    parse(RestClient.get(uri).body)
+  rescue RestClient::Exception, SocketError
+    false
+  end
+
+  def parse(html)
+    doc = Nokogiri::HTML.parse(html)
     fields = self.class.instance_variable_get(:@mapped_fields)
     fields.each_value do |field|
-      send("#{field.to}=", field.map(data))
+      send("#{field.to}=", field.map(doc))
     end
     self
   end
@@ -30,7 +39,7 @@ module Morpha
 
   module ClassMethods
     def field(to, options={}, &block)
-      from    = options[:source]  || to.to_s
+      from    = options[:source]  || nil
       type    = options[:type]    || :string
       default = options[:default] || ''
 

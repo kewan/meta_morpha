@@ -1,37 +1,47 @@
 require 'morpha/field'
+require 'nokogiri'
 
 describe Morpha::Field do
 
   before(:each) do
-    @data = {
-      'SomeName'   => 'SomeValue',
-      'product_id' => '1234',
-      'ImageUrl'   => 'http://www.example.com/this.jpg'
-    }
+    file = File.read(File.expand_path('../../examples/opengraph.html', __FILE__))
+    @html = Nokogiri::HTML.parse(file)
   end
 
   describe "map" do
 
-    it "maps to a field that exists in the supplied data" do
-      field = Morpha::Field.new(:name, 'SomeName', :string, "")
-      field.map(@data).should eq @data['SomeName']
+    it "maps to a meta tag property" do
+      field = Morpha::Field.new(:name, 'og:title', :string, "")
+      field.map(@html).should eq "This is the open graph title"
     end
 
-    it "maps to default if not supplied in data" do
-      field = Morpha::Field.new(:currency, 'Currency', :string, 'GBP')
-      field.map(@data).should eq 'GBP'
+    it "maps using block" do
+      field = Morpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
+      field.map(@html).should eq "Title from html"
     end
 
-    it "maps to the supplied type" do
-      field = Morpha::Field.new(:id, 'product_id', :integer)
-      field.map(@data).should eq @data['product_id'].to_i
+    it "maps using a complex block" do
+      field = Morpha::Field.new(:prices) do |doc|
+        amounts = doc.css('meta[property="og:price:amount"]').map {|m| m.attribute('content').to_s }
+        currencies = doc.css('meta[property="og:price:currency"]').map {|m| m.attribute('content').to_s }
+
+        prices = []
+        amounts.count.times do |i|
+          prices[i] = Hash[currency: currencies[i], amount: amounts[i]]
+        end
+
+        prices
+      end
+      field.map(@html).should eq [
+          {:currency=>"GBP", :amount=>"319.99"},
+          {:currency=>"USD", :amount=>"369.99"}
+      ]
     end
 
-    it "maps to the suppied field using a block to determine value" do
-      field = Morpha::Field.new(:image_url, 'ImageUrl', :string, '') { |url| url.gsub!(/example/, 'monkey') }
-      field.map(@data).should eq 'http://www.monkey.com/this.jpg'
+    it "maps to default if not found" do
+      field = Morpha::Field.new(:name, 'somejunkmeta', :string, "notfound")
+      field.map(@html).should eq "notfound"
     end
-
   end
 
 end

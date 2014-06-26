@@ -5,13 +5,12 @@ module Shop
   class Product
     include Morpha
 
-    field :name
-    field :id, source: 'SomeID'
-    field :price, source: 'ThePrice', type: :float
-    field :currency, source: 'Currency', type: :string, default: 'GBP'
-    field :reverse_image, source: 'ImageURL', type: :string, default: 'GBP' do |url|
-      url.reverse
+    field :title, source: "og:title", type: :string
+    field :not_found, source: 'somejunk', type: :string, default: 'nothingfound'
+    field :example do |doc|
+      doc.at("#example").text.to_s
     end
+
   end
 end
 
@@ -20,54 +19,39 @@ describe Morpha do
 
   before(:each) do
     @product = Shop::Product.new
-    @data = {
-      'SomeID'   => '1234',
-      'ThePrice' => '450.00',
-      'ImageURL' => 'http://example.com/12345-some-text.jpg',
-      'name'     => 'kewan'
-    }
+    file = File.read(File.expand_path('../examples/opengraph.html', __FILE__))
 
-    @product.parse(@data)
+    @product.parse(file)
   end
 
   describe "field" do
 
     it "maps the field" do
       fields = @product.class.instance_variable_get(:@mapped_fields)
-      fields.count.should eq 5
-      fields.should have_key(:name)
-      fields.should have_key(:id)
-      fields.should have_key(:price)
-      fields.should have_key(:currency)
-      fields.should have_key(:reverse_image)
+      fields.count.should eq 3
+      fields.should have_key(:title)
+      fields.should have_key(:not_found)
+      fields.should have_key(:example)
+      # fields.should have_key(:id)
+      # fields.should have_key(:price)
+      # fields.should have_key(:currency)
+      # fields.should have_key(:reverse_image)
     end
 
   end
 
   describe "parse" do
 
-    it "parses the data with defualt source name being same as to name" do
-      @product.name.should eq @data['name']
+    it "finds meta using source" do
+      @product.title.should eq "This is the open graph title"
     end
 
-    it "parses the data to the correct variable" do
-      @product.id.should eq @data['SomeID']
+    it "uses default if meta not found" do
+      @product.not_found.should eq "nothingfound"
     end
 
-    it "parses the data to the correct variable with the correct type" do
-      @product.price.should eq @data['ThePrice'].to_f
-    end
-
-    it "parses to default if not available in data" do
-      @product.currency.should eq 'GBP'
-    end
-
-    it "parses using the block to format value" do
-      @product.reverse_image.should == @data['ImageURL'].reverse
-    end
-
-    it "returns self after passing to allow method chaining" do
-      @product.parse(@data).should eq @product
+    it "uses gets value from block" do
+      @product.example.should eq "This is the example"
     end
 
   end
@@ -76,12 +60,10 @@ describe Morpha do
 
     it "converst mapped fileds to hash" do
       product_hash = @product.to_hash
-      product_hash.count.should eq 5
-      product_hash[:id].should eq @product.id
-      product_hash[:name].should eq @product.name
-      product_hash[:price].should eq @product.price
-      product_hash[:currency].should eq @product.currency
-      product_hash[:reverse_image].should eq @product.reverse_image
+      product_hash.count.should eq 3
+      product_hash[:title].should eq @product.title
+      product_hash[:not_found].should eq @product.not_found
+      product_hash[:example].should eq @product.example
     end
 
   end
