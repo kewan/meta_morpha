@@ -33,19 +33,12 @@ module MetaMorpha
     private
 
       def find_meta_value(raw_value)
-        meta = @html.xpath("//meta[@*=\"#{raw_value}\"]").first
-
-        value = @default
-        if meta
-          value = meta.attribute('content').to_s.strip
-          value = meta.attribute('value').to_s.strip if value.empty?
-        end
-
-        value
+        selector = MetaMorpha::Selector.new(@html)
+        selector.exact(raw_value)
       end
 
       def convert_value(raw_value)
-        value = find_meta_value(raw_value)
+        value = find_meta_value(raw_value) || @default
         if VALID_TYPES.has_key?(@type)
           value.send(VALID_TYPES[@type])
         end
