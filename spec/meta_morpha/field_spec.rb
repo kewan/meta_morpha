@@ -15,6 +15,11 @@ describe MetaMorpha::Field do
       expect(field.map(@html)).to eq "This is the open graph title"
     end
 
+    it "maps to a meta tag name" do
+      field = MetaMorpha::Field.new(:name, 'og:test', :string, "")
+      expect(field.map(@html)).to eq "Found with name instead of property"
+    end
+
     it "maps using block" do
       field = MetaMorpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
       expect(field.map(@html)).to eq "Title from html"
