@@ -34,6 +34,14 @@ describe MetaMorpha::Selector do
       expect(@selector.exact("starts")).to be_empty
     end
 
+    it "should find multiple metas" do
+      expect(@selector.exact("price:amount")).to eq ["11.99", "16.99"]
+    end
+
+    it "should not find not existent meta" do
+      expect(@selector.exact("banana")).to eq []
+    end
+
   end
 
   context "#starts_with" do
@@ -60,11 +68,4 @@ describe MetaMorpha::Selector do
 
   end
 
-  context "multiple" do
-
-    it "should find multiple metas" do
-      expect(@selector.exact("price:amount")).to eq ["11.99", "16.99"]
-    end
-
-  end
 end
