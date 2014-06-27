@@ -7,8 +7,8 @@ module Shop
 
     field :title, property: "og:title", type: :string
     field :not_found, property: 'somejunk', type: :string, default: 'nothingfound'
-    field :example do |doc|
-      doc.at("#example").text.to_s
+    field :example do |selector|
+      selector.doc.at("#example").text.to_s
     end
     field :no_type, property: 'og:image'
     field :no_default, property: 'somethingthatdoesnotexist'

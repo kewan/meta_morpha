@@ -35,14 +35,12 @@ describe MetaMorpha::Field do
         amounts = selector.exact("og:price:amount")
         currencies = selector.exact("og:price:currency")
 
-        p amounts
-        p currencies
-        # prices = []
-        # amounts.count.times do |i|
-        #   prices[i] = Hash[currency: currencies[i], amount: amounts[i]]
-        # end
-        #
-        # prices
+        prices = []
+        amounts.count.times do |i|
+          prices[i] = Hash[currency: currencies[i], amount: amounts[i]]
+        end
+
+        prices
       end
       expect(field.map(@html)).to eq [
           {:currency=>"GBP", :amount=>"319.99"},
