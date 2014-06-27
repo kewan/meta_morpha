@@ -33,8 +33,15 @@ module MetaMorpha
     private
 
       def find_meta_value(raw_value)
-        meta = @html.at("meta[property=\"#{raw_value}\"],meta[name=\"#{raw_value}\"]")
-        meta ? meta.attribute('content').to_s.strip : @default
+        meta = @html.xpath("//meta[@*=\"#{raw_value}\"]").first
+
+        value = @default
+        if meta
+          value = meta.attribute('content').to_s.strip
+          value = meta.attribute('value').to_s.strip if value.empty?
+        end
+
+        value
       end
 
       def convert_value(raw_value)

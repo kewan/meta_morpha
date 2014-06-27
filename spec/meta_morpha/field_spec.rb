@@ -20,6 +20,11 @@ describe MetaMorpha::Field do
       expect(field.map(@html)).to eq "Found with name instead of property"
     end
 
+    it "maps to a meta tag from value instead of content" do
+      field = MetaMorpha::Field.new(:name, 'og:what', :string, "")
+      expect(field.map(@html)).to eq "Say whaaat?"
+    end
+
     it "maps using block" do
       field = MetaMorpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
       expect(field.map(@html)).to eq "Title from html"
