@@ -1,6 +1,8 @@
 module MetaMorpha
   class Selector
 
+    attr_accessor :doc
+
     def initialize(doc)
       raise "Not nokogiri doc" unless doc.is_a? Nokogiri::HTML::Document
       @doc = doc
@@ -13,10 +15,6 @@ module MetaMorpha
     end
 
     def starts_with(selectors)
-      # lookup = "//meta[starts-with(@*, \"#{match}\")]" #starts-with
-      # lookup = "//meta[contains(@*, \"#{match}\")]" #fuzzy
-      # ends with
-      # lookup = "//meta[contains(substring(@*, string-length(@*) - #{match.length}), \"#{match}\")]"
       find(selectors) do |q|
         "//meta[starts-with(@*, \"#{q}\")]"
       end
@@ -38,21 +36,20 @@ module MetaMorpha
       raise "Find called without query block" unless block_given?
       selectors = [selectors] if selectors.is_a? String
 
-      meta = nil
+      metas = []
       selectors.collect do |selector|
         query = yield selector
-        meta = @doc.xpath(query).first
-        break unless meta.nil?
+        metas = @doc.xpath(query)
+        break unless metas.nil?
       end
 
-      value = nil
-
-      if meta
+      values = metas.collect do |meta|
         value = meta.attribute('content').to_s.strip
         value = meta.attribute('value').to_s.strip if value.empty?
+        value
       end
 
-      value
+      return (values.count <= 1) ? values.first : values
     end
   end
 end

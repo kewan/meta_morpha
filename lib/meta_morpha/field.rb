@@ -1,3 +1,5 @@
+require 'meta_morpha/selector'
+
 module MetaMorpha
   class Field
 
@@ -18,10 +20,10 @@ module MetaMorpha
     end
 
     def map(html)
-      @html = html
+      @selector = MetaMorpha::Selector.new(html)
 
       if(@conversion)
-        return @conversion.call(@html)
+        return @conversion.call(@selector)
       elsif(@from)
         return convert_value(@from)
       else
@@ -32,13 +34,8 @@ module MetaMorpha
 
     private
 
-      def find_meta_value(raw_value)
-        selector = MetaMorpha::Selector.new(@html)
-        selector.exact(raw_value)
-      end
-
       def convert_value(raw_value)
-        value = find_meta_value(raw_value) || @default
+        value = @selector.exact(raw_value) || @default
         if VALID_TYPES.has_key?(@type)
           value.send(VALID_TYPES[@type])
         end

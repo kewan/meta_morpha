@@ -15,6 +15,10 @@ describe MetaMorpha::Selector do
     }.to raise_error "Not nokogiri doc"
   end
 
+  it "should be able to access the nokogiri doc" do
+    expect(@selector.doc).to be_a Nokogiri::HTML::Document
+  end
+
   context "#exact" do
 
     it "should match exact for string" do
@@ -52,6 +56,14 @@ describe MetaMorpha::Selector do
 
     it "should find element with attribute containing param" do
       expect(@selector.contains("fuzzy")).to eq "This is contains fuzzy"
+    end
+
+  end
+
+  context "multiple" do
+
+    it "should find multiple metas" do
+      expect(@selector.exact("price:amount")).to eq ["11.99", "16.99"]
     end
 
   end

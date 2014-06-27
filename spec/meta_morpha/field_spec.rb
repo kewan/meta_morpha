@@ -26,21 +26,23 @@ describe MetaMorpha::Field do
     end
 
     it "maps using block" do
-      field = MetaMorpha::Field.new(:title, 'title', :string, '') { |doc| doc.at("title").content }
+      field = MetaMorpha::Field.new(:title, 'title', :string, '') { |selector| selector.doc.at("title").content }
       expect(field.map(@html)).to eq "Title from html"
     end
 
     it "maps using a complex block" do
-      field = MetaMorpha::Field.new(:prices) do |doc|
-        amounts = doc.css('meta[property="og:price:amount"]').map {|m| m.attribute('content').to_s }
-        currencies = doc.css('meta[property="og:price:currency"]').map {|m| m.attribute('content').to_s }
+      field = MetaMorpha::Field.new(:prices) do |selector|
+        amounts = selector.exact("og:price:amount")
+        currencies = selector.exact("og:price:currency")
 
-        prices = []
-        amounts.count.times do |i|
-          prices[i] = Hash[currency: currencies[i], amount: amounts[i]]
-        end
-
-        prices
+        p amounts
+        p currencies
+        # prices = []
+        # amounts.count.times do |i|
+        #   prices[i] = Hash[currency: currencies[i], amount: amounts[i]]
+        # end
+        #
+        # prices
       end
       expect(field.map(@html)).to eq [
           {:currency=>"GBP", :amount=>"319.99"},
