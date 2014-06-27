@@ -49,7 +49,7 @@ module MetaMorpha
         value
       end
 
-      return (values.count <= 1) ? values.first : values
+      values
     end
   end
 end

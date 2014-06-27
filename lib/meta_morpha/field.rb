@@ -35,7 +35,8 @@ module MetaMorpha
     private
 
       def convert_value(raw_value)
-        value = @selector.exact(raw_value) || @default
+        values = @selector.exact(raw_value)
+        value = values.empty? ? @default : values.first
         if VALID_TYPES.has_key?(@type)
           value.send(VALID_TYPES[@type])
         end
