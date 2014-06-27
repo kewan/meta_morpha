@@ -2,6 +2,7 @@ require "nokogiri"
 require "meta_morpha/version"
 require "meta_morpha/module_inheritable_attributes"
 require "meta_morpha/field"
+require "meta_morpha/selector"
 
 module MetaMorpha
 
