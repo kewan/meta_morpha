@@ -6,9 +6,16 @@ require "meta_morpha/selector"
 
 module MetaMorpha
 
-  def parse(html)
+  def parse(html, limit_to_fields=[])
     doc = html.is_a?(Nokogiri::HTML::Document) ? html : Nokogiri::HTML.parse(html)
-    fields = self.class.instance_variable_get(:@mapped_fields)
+    mapped_fields = self.class.instance_variable_get(:@mapped_fields)
+
+    if limit_to_fields.empty?
+      fields = mapped_fields
+    else
+      fields = mapped_fields.reject { |f| !limit_to_fields.include? f }
+    end
+
     fields.each_value do |field|
       send("#{field.to}=", field.map(doc))
     end

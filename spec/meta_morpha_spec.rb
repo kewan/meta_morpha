@@ -23,8 +23,8 @@ describe MetaMorpha do
     @product = Shop::Product.new
     file = File.read(File.expand_path('../examples/opengraph.html', __FILE__))
 
-    file = Nokogiri::HTML.parse(file)
-    @product.parse(file)
+    @doc = Nokogiri::HTML.parse(file)
+    @product.parse(@doc)
   end
 
   describe "field" do
@@ -61,6 +61,21 @@ describe MetaMorpha do
 
     it "returns nil for unfound meta if no default" do
       expect(@product.no_default).to be_nil
+    end
+
+    it "will only parse selected fields if supplied" do
+      prod = Shop::Product.new
+      prod.parse(@doc, [:title])
+      expect(prod.title).to eq "This is the open graph title"
+      [:not_found, :example, :no_type, :no_default].each do |m|
+        expect(prod.send(m)).to be_nil
+      end
+    end
+
+    it "will ignore supplied fields that do not exist" do
+      prod = Shop::Product.new
+      prod.parse(@doc, [:title, :monkey])
+      expect(prod.title).to eq "This is the open graph title"
     end
   end
 
