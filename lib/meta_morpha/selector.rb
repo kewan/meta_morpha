@@ -16,19 +16,19 @@ module MetaMorpha
 
     def starts_with(selectors)
       find(selectors) do |q|
-        "//meta[starts-with(@*, \"#{q}\")]"
+        "//meta[@*[starts-with(., \"#{q}\")]]"
       end
     end
 
     def ends_with(selectors)
       find(selectors) do |q|
-        "//meta[contains(substring(@*, string-length(@*) - #{q.length}), \"#{q}\")]"
+        "//meta[@*[contains(substring(., string-length(.) - #{q.length}), \"#{q}\")]]"
       end
     end
 
     def contains(selectors)
       find(selectors) do |q|
-        "//meta[contains(@*, \"#{q}\")]"
+        "//meta[@*[contains(., \"#{q}\")]]"
       end
     end
 

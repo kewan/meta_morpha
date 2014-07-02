@@ -56,6 +56,7 @@ describe MetaMorpha::Selector do
 
     it "should find element with attribute ending with param" do
       expect(@selector.ends_with("ends-with")).to eq ["Ends with"]
+      expect(@selector.ends_with("some:amount")).to eq ["22.50"]
     end
 
   end
